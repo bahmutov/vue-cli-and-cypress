@@ -15,6 +15,8 @@ describe('App', () => {
     cy
       .get('img')
       .then($img => {
+        // images that failed to load
+        // will have width undefined or 0
         return $img[0].naturalWidth
       })
       .should('be.gt', 0)
@@ -22,8 +24,12 @@ describe('App', () => {
 
   it('loads logo using its', () => {
     cy.log('Logo image naturalWidth')
+    // by using `its` we let Cypress retry
+    // the assertion, thus no `cy.wait` is needed
     cy
       .get('img')
+      // we get jquery element, thus the "true" element
+      // is at index 0
       .its('0.naturalWidth')
       .should('be.gt', 0)
   })
